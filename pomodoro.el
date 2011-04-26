@@ -76,6 +76,8 @@
 
 ;;; Code:
 
+(require 'notifications)
+
 (defvar pomodoro-work-time 25
   "Time in minutes of work")
 
@@ -87,17 +89,6 @@
 
 (defvar pomodoro-set-number 4
   "Number of sets until a long break")
-
-(defvar pomodoro-buffer-name "*pomodoro*"
-  "Name of the pomodoro buffer")
-
-(defvar pomodoro-raise-frame t
-  "When t raise frame on pomodoro notification")
-
-(defvar pomodoro-message-hook nil
-  "Hook run on pomodoro notification.
-The function take one argument that is the message to be
-diplayed")
 
 (defvar pomodoro-display-string "")
 (defvar pomodoro-minute)
@@ -119,7 +110,8 @@ diplayed")
         pomodoro-set 1
         pomodoro-state 'work
         pomodoro-timer (run-at-time t 60 'pomodoro-timer))
-  (pomodoro-update-modeline))
+  (pomodoro-update-modeline)
+  (pomodoro-message))
 
 ;;;###autoload
 (defun pomodoro-rewind ()
@@ -135,34 +127,29 @@ diplayed")
   (interactive)
   (when pomodoro-timer
     (cancel-timer pomodoro-timer))
-  (delq 'pomodoro-display-string global-mode-string)
-  (when (get-buffer pomodoro-buffer-name)
-    (kill-buffer "*pomodoro*")))
+  (delq 'pomodoro-display-string global-mode-string))
 
 (defun pomodoro-timer ()
   "Function called every minute.
-It takes care of updating the modeline as well a message buffer"
-  (setq pomodoro-minute (- pomodoro-minute 1))
+It takes care of updating the modeline"
+  (setq pomodoro-minute (1- pomodoro-minute))
   (when (<= pomodoro-minute 0)
     (cond ((eq pomodoro-state 'long-break)
            (setq pomodoro-state 'work
-                 pomodoro-minute pomodoro-work-time)
-           (pomodoro-message "Work"))
+                 pomodoro-minute pomodoro-work-time))
           ((eq pomodoro-state 'short-break)
            (setq pomodoro-state 'work
                  pomodoro-minute pomodoro-work-time)
-           (setq pomodoro-set (+ pomodoro-set 1))
-           (pomodoro-message "Work"))
+           (setq pomodoro-set (1+ pomodoro-set)))
           ((eq pomodoro-state 'work)
            (if (>= pomodoro-set pomodoro-set-number)
-               (progn
-                 (setq pomodoro-minute pomodoro-long-break
-                       pomodoro-state 'long-break
-                       pomodoro-set 1)
-                 (pomodoro-message "Long break"))
+               (setq pomodoro-minute pomodoro-long-break
+                     pomodoro-state 'long-break
+                     pomodoro-set 1)
                (setq pomodoro-minute pomodoro-short-break
                      pomodoro-state 'short-break)
-               (pomodoro-message "Short break")))))
+               )))
+    (pomodoro-message))
   (pomodoro-update-modeline))
 
 (defun pomodoro-update-modeline ()
@@ -176,18 +163,14 @@ It takes care of updating the modeline as well a message buffer"
                (format "LB-%d" pomodoro-minute))))
   (force-mode-line-update))
 
-(defun pomodoro-message (msg)
-  "Display a message in a buffer and maybe raise emacs frame."
-  (when pomodoro-raise-frame
-    (raise-frame (selected-frame)))
-  (let ((this-window (selected-window)))
-    (with-current-buffer (get-buffer-create pomodoro-buffer-name)
-      (erase-buffer)
-      (insert msg))
-    (pop-to-buffer pomodoro-buffer-name)
-    (fit-window-to-buffer)
-    (select-window this-window))
-  (run-hook-with-args 'pomodoro-message-hook msg))
+(defun pomodoro-message ()
+  "Display a message via libnotify"
+  (notifications-notify
+   :title (cond ((eq pomodoro-state 'work) "Work")
+                ((eq pomodoro-state 'short-break) "Short break")
+                (t "Long break"))
+   :body (concat (format "%d set\n" pomodoro-set)
+                 (format "%d minute(s) left" pomodoro-minute))))
 
 (provide 'pomodoro)
 
