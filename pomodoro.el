@@ -1,5 +1,22 @@
 ;;; pomodoro.el --- Pomodoro Technique for emacs
 
+;; Author: Ivan Kanis
+;; Copyright (C) 2011 Ivan Kanis
+;;
+;; This program is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation; either version 2 of the License, or
+;; (at your option) any later version.
+;;
+;; This program is distributed in the hope that it will be useful, but
+;; WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+;; General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with this program; if not, write to the Free Software
+;; Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
 ;;; Commentary:
 
 ;; The technique is described in http://www.pomodorotechnique.com
@@ -34,7 +51,6 @@
 ;;  - `pomodoro-short-break' number of minutes of a short break
 ;;  - `pomodoro-long-break' number of minutes of a long break
 ;;  - `pomodoro-set-number' number of sets until a long break
-;;  - `pomodoro-set-number' the minutes of a working set with
 
 ;;; THANKS:
 
@@ -144,9 +160,9 @@ It takes care of updating the modeline as well a message buffer"
                        pomodoro-state 'long-break
                        pomodoro-set 1)
                  (pomodoro-message "Long break"))
-             (setq pomodoro-minute pomodoro-short-break
-                   pomodoro-state 'short-break)
-             (pomodoro-message "Short break")))))
+               (setq pomodoro-minute pomodoro-short-break
+                     pomodoro-state 'short-break)
+               (pomodoro-message "Short break")))))
   (pomodoro-update-modeline))
 
 (defun pomodoro-update-modeline ()
@@ -175,23 +191,5 @@ It takes care of updating the modeline as well a message buffer"
 
 (provide 'pomodoro)
 
-;; Local Variables:
-;; compile-command: "make"
-;; End:
-
-;; Copyright (C) 2011 Ivan Kanis
-;; Author: Ivan Kanis
-;;
-;; This program is free software ; you can redistribute it and/or modify
-;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation ; either version 2 of the License, or
-;; (at your option) any later version.
-;;
-;; This program is distributed in the hope that it will be useful, but
-;; WITHOUT ANY WARRANTY ; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-;; General Public License for more details.
-;;
-;; You should have received a copy of the GNU General Public License
-;; along with this program ; if not, write to the Free Software
-;; Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; pomodoro.el ends here
