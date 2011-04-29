@@ -90,6 +90,9 @@
 (defvar pomodoro-set-number 4
   "Number of sets until a long break")
 
+(defvar pomodoro-icon ""
+  "Icon used for notification")
+
 (defvar pomodoro-display-string "")
 (defvar pomodoro-minute)
 (defvar pomodoro-set)
@@ -128,7 +131,10 @@
   (interactive)
   (when pomodoro-timer
     (cancel-timer pomodoro-timer))
-  (delq 'pomodoro-display-string global-mode-string))
+  (delq 'pomodoro-display-string global-mode-string)
+  (notifications-notify
+   :title "Stopped"
+   :app-icon pomodoro-icon))
 
 (defun pomodoro-timer ()
   "Function called every minute.
@@ -171,7 +177,7 @@ It takes care of updating the modeline"
                 (t "Long break"))
    :body (concat (format "%d set\n" pomodoro-set)
                  (format "%d minute(s) left" pomodoro-minute))
-   :app-icon "pomodoro_technique.png"))
+   :app-icon pomodoro-icon))
 
 (provide 'pomodoro)
 
