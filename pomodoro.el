@@ -82,10 +82,10 @@
   "Time in minutes of work")
 
 (defvar pomodoro-short-break 5
-  "Time in minute of short break")
+  "Time in minutes of short break")
 
 (defvar pomodoro-long-break 15
-  "Time in minute of long break")
+  "Time in minutes of long break")
 
 (defvar pomodoro-set-number 4
   "Number of sets until a long break")
@@ -119,7 +119,8 @@
   (interactive)
   (setq pomodoro-minute pomodoro-work-time
         pomodoro-state 'work)
-  (pomodoro-update-modeline))
+  (pomodoro-update-modeline)
+  (pomodoro-message))
 
 ;;;###autoload
 (defun pomodoro-stop ()
@@ -139,16 +140,15 @@ It takes care of updating the modeline"
                  pomodoro-minute pomodoro-work-time))
           ((eq pomodoro-state 'short-break)
            (setq pomodoro-state 'work
-                 pomodoro-minute pomodoro-work-time)
-           (setq pomodoro-set (1+ pomodoro-set)))
+                 pomodoro-minute pomodoro-work-time
+                 pomodoro-set (1+ pomodoro-set)))
           ((eq pomodoro-state 'work)
            (if (>= pomodoro-set pomodoro-set-number)
                (setq pomodoro-minute pomodoro-long-break
                      pomodoro-state 'long-break
                      pomodoro-set 1)
                (setq pomodoro-minute pomodoro-short-break
-                     pomodoro-state 'short-break)
-               )))
+                     pomodoro-state 'short-break))))
     (pomodoro-message))
   (pomodoro-update-modeline))
 
@@ -170,7 +170,8 @@ It takes care of updating the modeline"
                 ((eq pomodoro-state 'short-break) "Short break")
                 (t "Long break"))
    :body (concat (format "%d set\n" pomodoro-set)
-                 (format "%d minute(s) left" pomodoro-minute))))
+                 (format "%d minute(s) left" pomodoro-minute))
+   :app-icon "pomodoro_technique.png"))
 
 (provide 'pomodoro)
 
