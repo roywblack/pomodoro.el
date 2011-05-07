@@ -131,10 +131,16 @@
   (interactive)
   (when pomodoro-timer
     (cancel-timer pomodoro-timer))
-  (delq 'pomodoro-display-string global-mode-string)
-  (notifications-notify
-   :title "Stopped"
-   :app-icon pomodoro-icon))
+  (if (memq 'pomodoro-display-string global-mode-string)
+      (progn
+        (delq 'pomodoro-display-string global-mode-string)
+        (notifications-notify
+         :title "Stopped"
+         :app-icon pomodoro-icon
+         :urgency 'critical))
+      (if (y-or-n-p "Pomodoro isn't running. Start it?")
+          (pomodoro)
+          (message "As you wish."))))
 
 (defun pomodoro-timer ()
   "Function called every minute.
