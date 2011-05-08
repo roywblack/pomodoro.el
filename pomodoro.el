@@ -55,6 +55,7 @@
 ;;  - `pomodoro-short-break' number of minutes of a short break
 ;;  - `pomodoro-long-break' number of minutes of a long break
 ;;  - `pomodoro-set-number' number of sets until a long break
+;;  - `pomodoro-icon' icon for use in notifications
 
 ;;; THANKS:
 
@@ -94,7 +95,7 @@
 (defvar pomodoro-set-number 4
   "Number of sets until a long break")
 
-(defvar pomodoro-icon ""
+(defvar pomodoro-icon notifications-application-icon
   "Icon used for notification")
 
 (defvar pomodoro-display-string "")
