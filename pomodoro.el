@@ -117,7 +117,7 @@
             pomodoro-state 'work
             pomodoro-timer (run-at-time t 60 'pomodoro-timer))
       (pomodoro-update-modeline)
-      (pomodoro-message)))
+      (pomodoro-status)))
 
 ;;;###autoload
 (defun pomodoro-rewind ()
@@ -126,7 +126,7 @@
   (setq pomodoro-minute pomodoro-work-time
         pomodoro-state 'work)
   (pomodoro-update-modeline)
-  (pomodoro-message))
+  (pomodoro-status))
 
 ;;;###autoload
 (defun pomodoro-stop ()
@@ -142,6 +142,22 @@
          :urgency 'critical))
       (when (y-or-n-p "Pomodoro isn't running. Start it?")
         (pomodoro))))
+
+;;;###autoload
+(defun pomodoro-status ()
+  (interactive)
+  "Display a status message via libnotify"
+  (notifications-notify
+   :title (cond
+            ((not (pomodoro-running-p)) "Not running")
+            ((eq pomodoro-state 'work) "Work")
+            ((eq pomodoro-state 'short-break) "Short break")
+            (t "Long break"))
+   :body (if (pomodoro-running-p)
+             (concat (format "%d set\n" pomodoro-set)
+                     (format "%d minute(s) left" pomodoro-minute))
+             "")
+   :app-icon pomodoro-icon))
 
 (defun pomodoro-timer ()
   "Function called every minute.
@@ -162,7 +178,7 @@ It takes care of updating the modeline"
                      pomodoro-set 1)
                (setq pomodoro-minute pomodoro-short-break
                      pomodoro-state 'short-break))))
-    (pomodoro-message))
+    (pomodoro-status))
   (pomodoro-update-modeline))
 
 (defun pomodoro-update-modeline ()
@@ -175,16 +191,6 @@ It takes care of updating the modeline"
               (t
                (format "LB-%d" pomodoro-minute))))
   (force-mode-line-update))
-
-(defun pomodoro-message ()
-  "Display a message via libnotify"
-  (notifications-notify
-   :title (cond ((eq pomodoro-state 'work) "Work")
-                ((eq pomodoro-state 'short-break) "Short break")
-                (t "Long break"))
-   :body (concat (format "%d set\n" pomodoro-set)
-                 (format "%d minute(s) left" pomodoro-minute))
-   :app-icon pomodoro-icon))
 
 (defun pomodoro-running-p ()
   "Check if pomodoro is currently running"
