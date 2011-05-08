@@ -47,6 +47,9 @@
 ;;
 ;; Calling M-x pomodoro again will reset it to the first working set
 ;;
+;; Calling M-x pomodoro-status will show you notification about current
+;; pomodoro state, time left and set number.
+;;
 ;; You can customize this mode with the following variables:
 ;;  - `pomodoro-work-time' number of minutes of working
 ;;  - `pomodoro-short-break' number of minutes of a short break
