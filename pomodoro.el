@@ -164,32 +164,34 @@
 It takes care of updating the modeline"
   (setq pomodoro-minute (1- pomodoro-minute))
   (when (<= pomodoro-minute 0)
-    (cond ((eq pomodoro-state 'long-break)
-           (setq pomodoro-state 'work
-                 pomodoro-minute pomodoro-work-time))
-          ((eq pomodoro-state 'short-break)
-           (setq pomodoro-state 'work
-                 pomodoro-minute pomodoro-work-time
-                 pomodoro-set (1+ pomodoro-set)))
-          ((eq pomodoro-state 'work)
-           (if (>= pomodoro-set pomodoro-set-number)
-               (setq pomodoro-minute pomodoro-long-break
-                     pomodoro-state 'long-break
-                     pomodoro-set 1)
-               (setq pomodoro-minute pomodoro-short-break
-                     pomodoro-state 'short-break))))
+    (cond
+      ((eq pomodoro-state 'long-break)
+       (setq pomodoro-state 'work
+             pomodoro-minute pomodoro-work-time))
+      ((eq pomodoro-state 'short-break)
+       (setq pomodoro-state 'work
+             pomodoro-minute pomodoro-work-time
+             pomodoro-set (1+ pomodoro-set)))
+      ((eq pomodoro-state 'work)
+       (if (>= pomodoro-set pomodoro-set-number)
+           (setq pomodoro-minute pomodoro-long-break
+                 pomodoro-state 'long-break
+                 pomodoro-set 1)
+           (setq pomodoro-minute pomodoro-short-break
+                 pomodoro-state 'short-break))))
     (pomodoro-status))
   (pomodoro-update-modeline))
 
 (defun pomodoro-update-modeline ()
   "Update the modeline."
   (setq pomodoro-display-string
-        (cond ((eq pomodoro-state 'work)
-               (format "W%d-%d" pomodoro-set pomodoro-minute))
-              ((eq pomodoro-state 'short-break)
-               (format "B%d-%d" pomodoro-set pomodoro-minute))
-              (t
-               (format "LB-%d" pomodoro-minute))))
+        (cond
+          ((eq pomodoro-state 'work)
+           (format "W%d-%d" pomodoro-set pomodoro-minute))
+          ((eq pomodoro-state 'short-break)
+           (format "B%d-%d" pomodoro-set pomodoro-minute))
+          (t
+           (format "LB-%d" pomodoro-minute))))
   (force-mode-line-update))
 
 (defun pomodoro-running-p ()
