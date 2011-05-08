@@ -127,10 +127,14 @@
 (defun pomodoro-rewind ()
   "Rewind pomodoro, keep current set"
   (interactive)
-  (setq pomodoro-minute pomodoro-work-time
-        pomodoro-state 'work)
-  (pomodoro-update-modeline)
-  (pomodoro-status))
+  (if (pomodoro-running-p)
+      (progn
+        (setq pomodoro-minute pomodoro-work-time
+              pomodoro-state 'work)
+        (pomodoro-update-modeline)
+        (pomodoro-status))
+      (when (y-or-n-p "Pomodoro isn't running. Start it?")
+        (pomodoro))))
 
 ;;;###autoload
 (defun pomodoro-stop ()
