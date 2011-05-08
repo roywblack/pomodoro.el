@@ -186,6 +186,12 @@ It takes care of updating the modeline"
                  (format "%d minute(s) left" pomodoro-minute))
    :app-icon pomodoro-icon))
 
+(defun pomodoro-running-p ()
+  "Check if pomodoro is currently running"
+  (if (memq pomodoro-timer timer-list)
+      t
+      nil))
+
 (provide 'pomodoro)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
