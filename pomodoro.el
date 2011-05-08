@@ -104,18 +104,20 @@
 (defun pomodoro ()
   "Start pomodoro, also rewind pomodoro to first set."
   (interactive)
-  (when pomodoro-timer
-    (cancel-timer pomodoro-timer))
-  (or global-mode-string (setq global-mode-string '("")))
-  (or (memq 'pomodoro-display-string global-mode-string)
-      (setq global-mode-string
-            (append global-mode-string '(pomodoro-display-string))))
-  (setq pomodoro-minute pomodoro-work-time
-        pomodoro-set 1
-        pomodoro-state 'work
-        pomodoro-timer (run-at-time t 60 'pomodoro-timer))
-  (pomodoro-update-modeline)
-  (pomodoro-message))
+  (if (pomodoro-running-p)
+      (when (y-or-n-p "Pomodoro is alredy running. Restart it?")
+        (cancel-timer pomodoro-timer)
+        (pomodoro))
+      (or global-mode-string (setq global-mode-string '("")))
+      (or (memq 'pomodoro-display-string global-mode-string)
+          (setq global-mode-string
+                (append global-mode-string '(pomodoro-display-string))))
+      (setq pomodoro-minute pomodoro-work-time
+            pomodoro-set 1
+            pomodoro-state 'work
+            pomodoro-timer (run-at-time t 60 'pomodoro-timer))
+      (pomodoro-update-modeline)
+      (pomodoro-message)))
 
 ;;;###autoload
 (defun pomodoro-rewind ()
@@ -130,18 +132,16 @@
 (defun pomodoro-stop ()
   "Stop pomodoro."
   (interactive)
-  (when pomodoro-timer
-    (cancel-timer pomodoro-timer))
-  (if (memq 'pomodoro-display-string global-mode-string)
+  (if (pomodoro-running-p)
       (progn
+        (cancel-timer pomodoro-timer)
         (delq 'pomodoro-display-string global-mode-string)
         (notifications-notify
          :title "Stopped"
          :app-icon pomodoro-icon
          :urgency 'critical))
-      (if (y-or-n-p "Pomodoro isn't running. Start it?")
-          (pomodoro)
-          (message "As you wish."))))
+      (when (y-or-n-p "Pomodoro isn't running. Start it?")
+        (pomodoro))))
 
 (defun pomodoro-timer ()
   "Function called every minute.
