@@ -145,8 +145,8 @@
 
 ;;;###autoload
 (defun pomodoro-status ()
-  (interactive)
   "Display a status message via libnotify"
+  (interactive)
   (notifications-notify
    :title (cond
             ((not (pomodoro-running-p)) "Not running")
