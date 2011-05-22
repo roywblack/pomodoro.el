@@ -123,7 +123,6 @@
       (pomodoro-update-modeline)
       (pomodoro-status)))
 
-;;;###autoload
 (defun pomodoro-rewind ()
   "Rewind pomodoro, keep current set"
   (interactive)
@@ -136,7 +135,6 @@
       (when (y-or-n-p "Pomodoro isn't running. Start it?")
         (pomodoro))))
 
-;;;###autoload
 (defun pomodoro-stop ()
   "Stop pomodoro."
   (interactive)
@@ -151,7 +149,6 @@
       (when (y-or-n-p "Pomodoro isn't running. Start it?")
         (pomodoro))))
 
-;;;###autoload
 (defun pomodoro-status ()
   "Display a status message via libnotify"
   (interactive)
