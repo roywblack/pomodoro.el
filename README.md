@@ -11,19 +11,28 @@ to start the pomodoro you issue the following command:
     M-x pomodoro
 
 In the modeline you will see indicator `W1-25`. This means that you are working on set 1 and that you have 25 minutes remaining:
+
 ![](http://i55.tinypic.com/dws2f.jpg)
+
 The counter will decrease each minutes. When it reaches 0 you will get notification that it's time to take a break:
+
 ![](http://i54.tinypic.com/2hi2wiw.jpg)
+
 The modeline will display `B1-5`, that is you have a break of 5 minutes. When the count reaches 0 you will get another notification to get back to work and the set number will increase:
+
 ![](http://i55.tinypic.com/359bde1.jpg)
+
 At the end of the 4th set you will get a long break:
+
 ![](http://i53.tinypic.com/348k74x.jpg)
+
 The modeline will display `LB` instead of `B`.
 
 When you don't need the pomodoro anymore you do:
 
     M-x pomodoro-stop
 Pomodoro will finish it's work:
+
 ![](http://i54.tinypic.com/2hoep2v.jpg)
 
 I you got interrupted and you want to rewind the pomodoro on the
@@ -34,6 +43,7 @@ current set just do:
 Calling `M-x pomodoro` again will reset it to the first working set
 
 Calling `M-x pomodoro-status` will show you notification about current pomodoro state, time left and set number:
+
 ![](http://i51.tinypic.com/4ut0d0.jpg)
 
 ## Installation ##
