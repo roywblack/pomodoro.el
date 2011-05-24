@@ -27,7 +27,11 @@ Calling `M-x pomodoro-status` will show you notification about current pomodoro 
 
 ## Installation ##
 
-For status change notifications working you need **notifications.el** (included in GNU Emacs 24, which is not yet released, if you using older version - take notifications.el [here](http://bazaar.launchpad.net/~vcs-imports/emacs/trunk/annotate/head%3A/lisp/notifications.el))
+For status change notifications working you need:
+
+* Libnotify installed
+* D-Bus session running
+* **notifications.el** (included in GNU Emacs 24, which is not yet released, if you using older version - take notifications.el [here](http://bazaar.launchpad.net/~vcs-imports/emacs/trunk/annotate/head%3A/lisp/notifications.el))
 
 To activate pomodoro.el simply put it in your load path.
 For example if you put the file is in the directory ~/tmp you need to do the following :
