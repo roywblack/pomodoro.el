@@ -10,7 +10,8 @@ to start the pomodoro you issue the following command:
 
     M-x pomodoro
 
-In the modeline you will see indicator `W1-25`. This means that you are working on set 1 and that you have 25 minutes remaining. The counter will decrease each minutes. When it reaches 0 you will get notification that it's time to take a break. The modeline will display `B1-5`, that is you have a break of 5 minutes. When the count reaches 0 you will get another notification to get back to work and the set number will increase. At the end of the 4th set you will get a long break. The modeline will display `LB` instead of `B`.
+In the modeline you will see indicator `W1-25`. This means that you are working on set 1 and that you have 25 minutes remaining:![](http://i51.tinypic.com/2zdogvo.png)The counter will decrease each minutes. When it reaches 0 you will get notification that it's time to take a break: ![](http://i56.tinypic.com/ezqzde.png)
+  The modeline will display `B1-5`, that is you have a break of 5 minutes. When the count reaches 0 you will get another notification to get back to work and the set number will increase. At the end of the 4th set you will get a long break. The modeline will display `LB` instead of `B`.
 
 When you don't need the pomodoro anymore you do:
 
