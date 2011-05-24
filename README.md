@@ -27,7 +27,7 @@ Calling `M-x pomodoro-status` will show you notification about current pomodoro 
 
 ## Installation ##
 
-For status change notifications working you need `notifications.el` (included in GNU Emacs 24, which is not yet released, if you using older version - take notifications.el [here](http://bazaar.launchpad.net/~vcs-imports/emacs/trunk/annotate/head%3A/lisp/ido.el))
+For status change notifications working you need **notifications.el** (included in GNU Emacs 24, which is not yet released, if you using older version - take notifications.el [here](http://bazaar.launchpad.net/~vcs-imports/emacs/trunk/annotate/head%3A/lisp/notifications.el))
 
 To activate pomodoro.el simply put it in your load path.
 For example if you put the file is in the directory ~/tmp you need to do the following :
@@ -48,7 +48,11 @@ Alternatively, if you use [el-get](https://github.com/dimitri/el-get) (highly re
 You can customize this mode with the following variables:
 
 `pomodoro-work-time` - number of minutes of working
+
 `pomodoro-short-break` - number of minutes of a short break
+
 `pomodoro-long-break` - number of minutes of a long break
+
 `pomodoro-set-number` - number of sets until a long break
+
 `pomodoro-icon` -  icon for use in notifications
