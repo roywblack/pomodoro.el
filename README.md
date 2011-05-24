@@ -6,9 +6,7 @@ The technique is described in http://www.pomodorotechnique.com
 
 ## Usage ##
 
-to start the pomodoro you issue the following command:
-
-    M-x pomodoro
+to start the pomodoro you issue `M-x pomodoro`.
 
 In the modeline you will see indicator `W1-25`. This means that you are working on set 1 and that you have 25 minutes remaining. You'll also get notification:
 
@@ -28,16 +26,11 @@ At the end of the 4th set you will get a long break:
 
 The modeline will display `LB` instead of `B`.
 
-When you don't need the pomodoro anymore you do:
-
-    M-x pomodoro-stop
-Pomodoro will finish it's work:
+When you don't need the pomodoro anymore you do `M-x pomodoro-stop`. Pomodoro will finish it's work:
 
 ![](http://i54.tinypic.com/2hoep2v.jpg)
 
-If you got interrupted and you want to rewind the pomodoro on the current set just do:
-
-    M-x pomodoro-rewind
+If you got interrupted and you want to rewind the pomodoro on the current set just do `M-x pomodoro-rewind`
 
 Calling `M-x pomodoro` again will reset it to the first working set
 
