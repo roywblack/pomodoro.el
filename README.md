@@ -10,7 +10,7 @@ to start the pomodoro you issue the following command:
 
     M-x pomodoro
 
-In the modeline you will see indicator `W1-25`. This means that you are working on set 1 and that you have 25 minutes remaining:
+In the modeline you will see indicator `W1-25`. This means that you are working on set 1 and that you have 25 minutes remaining. You'll also get notification:
 
 ![](http://i55.tinypic.com/dws2f.jpg)
 
@@ -35,8 +35,7 @@ Pomodoro will finish it's work:
 
 ![](http://i54.tinypic.com/2hoep2v.jpg)
 
-I you got interrupted and you want to rewind the pomodoro on the
-current set just do:
+If you got interrupted and you want to rewind the pomodoro on the current set just do:
 
     M-x pomodoro-rewind
 
@@ -54,8 +53,7 @@ For status change notifications working you need:
 * D-Bus session running
 * **notifications.el** (included in GNU Emacs 24, which is not yet released, if you using older version - take notifications.el [here](http://bazaar.launchpad.net/~vcs-imports/emacs/trunk/annotate/head%3A/lisp/notifications.el))
 
-To activate pomodoro.el simply put it in your load path.
-For example if you put the file is in the directory ~/tmp you need to do the following :
+To activate pomodoro.el simply put it in your load path. For example if you put the file is in the directory ~/tmp you need to do the following :
 
     (add-to-list 'load-path "~/tmp")
     (require 'pomodoro)
