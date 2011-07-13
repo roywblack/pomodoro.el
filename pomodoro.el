@@ -172,6 +172,7 @@ It takes care of updating the modeline"
     (cond
       ((eq pomodoro-state 'long-break)
        (setq pomodoro-state 'work
+             pomodoro-set 1
              pomodoro-minute pomodoro-work-time))
       ((eq pomodoro-state 'short-break)
        (setq pomodoro-state 'work
@@ -180,8 +181,7 @@ It takes care of updating the modeline"
       ((eq pomodoro-state 'work)
        (if (>= pomodoro-set pomodoro-set-number)
            (setq pomodoro-minute pomodoro-long-break
-                 pomodoro-state 'long-break
-                 pomodoro-set 1)
+                 pomodoro-state 'long-break)
            (setq pomodoro-minute pomodoro-short-break
                  pomodoro-state 'short-break))))
     (pomodoro-status))
