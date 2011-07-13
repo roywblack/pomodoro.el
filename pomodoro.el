@@ -201,9 +201,7 @@ It takes care of updating the modeline"
 
 (defun pomodoro-running-p ()
   "Check if pomodoro is currently running"
-  (if (memq pomodoro-timer timer-list)
-      t
-      nil))
+  (memq pomodoro-timer timer-list))
 
 (provide 'pomodoro)
 
