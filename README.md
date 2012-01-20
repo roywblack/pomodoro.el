@@ -29,7 +29,9 @@ When you don't need the pomodoro anymore you do `M-x pomodoro-stop`. Pomodoro
 will finish it's work.
 
 If you got interrupted and you want to rewind the pomodoro on the current set
-just do `M-x pomodoro-rewind`
+just do `M-x pomodoro-rewind`.
+
+To skip forward to the start of the next set do `M-x pomodoro-skip-forward`.
 
 Calling `M-x pomodoro` again will reset it to the first working set.
 
@@ -52,7 +54,7 @@ For status change notifications working you need:
 To activate pomodoro.el simply put it in your load path. For example if you
 put the file is in the directory ~/tmp you need to do the following :
 
-```
+``` lisp
 (add-to-list 'load-path "~/tmp")
 (require 'pomodoro)
 ```
@@ -60,7 +62,7 @@ put the file is in the directory ~/tmp you need to do the following :
 Alternatively, if you use [el-get](https://github.com/dimitri/el-get) (highly
 recommended), use this recipe:
 
-```
+``` lisp
 (:name pomodoro
        :type git
        :url "https://github.com/vderyagin/pomodoro.el.git"
@@ -85,4 +87,4 @@ You can customize this mode with the following variables:
 
 ## Bugs ##
 
-Report bugs on [bugtracker](https://github.com/vderyagin/pomodoro.el/issues)
+Report bugs on [bugtracker](https://github.com/vderyagin/pomodoro.el/issues).
