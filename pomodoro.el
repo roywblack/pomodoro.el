@@ -162,14 +162,10 @@
   (if (pomodoro-running-p)
       (let (notification-title)
         (if pomodoro-paused
-            (setq pomodoro-paused nil
-                  notification-title "Unpaused")
-            (setq pomodoro-paused t
-                  notification-title "Paused"))
+            (setq pomodoro-paused nil)
+            (setq pomodoro-paused t))
         (pomodoro-update-modeline)
-        (notifications-notify
-         :title    notification-title
-         :app-icon pomodoro-icon))
+        (pomodoro-status))
       (when (y-or-n-p "Pomodoro isn't running. Start it?")
         (pomodoro))))
 
