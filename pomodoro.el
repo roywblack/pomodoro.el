@@ -40,10 +40,16 @@
 ;;
 ;; M-x pomodoro-stop
 ;;
-;; I you got interrupted and you want to rewind the pomodoro on the
+;; If you got interrupted and you want to rewind the pomodoro on the
 ;; current set just do:
 ;;
 ;; M-x pomodoro-rewind
+;;
+;; If you need a pause in your work you do:
+;;
+;; M-x pomodoro-toggle-pause
+;;
+;; Same command works for unpausing.
 ;;
 ;; Calling M-x pomodoro again will reset it to the first working set
 ;;
@@ -112,6 +118,7 @@
       (when (y-or-n-p "Pomodoro is alredy running. Restart it?")
         (cancel-timer pomodoro-timer)
         (pomodoro))
+      (setq pomodoro-paused nil)
       (or global-mode-string (setq global-mode-string '("")))
       (or (memq 'pomodoro-display-string global-mode-string)
           (setq global-mode-string
@@ -149,43 +156,68 @@
       (when (y-or-n-p "Pomodoro isn't running. Start it?")
         (pomodoro))))
 
+(defun pomodoro-toggle-pause ()
+  "Pauses pomodoro timer"
+  (interactive)
+  (if (pomodoro-running-p)
+      (let (notification-title)
+        (if pomodoro-paused
+            (setq pomodoro-paused nil
+                  notification-title "Unpaused")
+            (setq pomodoro-paused t
+                  notification-title "Paused"))
+        (pomodoro-update-modeline)
+        (notifications-notify
+         :title    notification-title
+         :app-icon pomodoro-icon))
+      (when (y-or-n-p "Pomodoro isn't running. Start it?")
+        (pomodoro))))
+
 (defun pomodoro-status ()
   "Display a status message via libnotify"
   (interactive)
-  (notifications-notify
-   :title (cond
-            ((not (pomodoro-running-p)) "Not running")
-            ((eq pomodoro-state 'work) "Work")
-            ((eq pomodoro-state 'short-break) "Short break")
-            (t "Long break"))
-   :body (if (pomodoro-running-p)
+  (let ((notification-title
+         (cond
+           ((not (pomodoro-running-p)) "Not running")
+           ((eq pomodoro-state 'work) "Work")
+           ((eq pomodoro-state 'short-break) "Short break")
+           (t "Long break")))
+        (notification-body
+         (if (pomodoro-running-p)
              (concat (format "%d set\n" pomodoro-set)
                      (format "%d minute(s) left" pomodoro-minute))
-             "")
-   :app-icon pomodoro-icon))
+             "")))
+    (when pomodoro-paused
+      (setq notification-title
+            (format "%s (paused)" notification-title)))
+    (notifications-notify
+     :title    notification-title
+     :body     notification-body
+     :app-icon pomodoro-icon)))
 
 (defun pomodoro-timer ()
   "Function called every minute.
 It takes care of updating the modeline"
-  (setq pomodoro-minute (1- pomodoro-minute))
-  (when (<= pomodoro-minute 0)
-    (cond
-      ((eq pomodoro-state 'long-break)
-       (setq pomodoro-state 'work
-             pomodoro-set 1
-             pomodoro-minute pomodoro-work-time))
-      ((eq pomodoro-state 'short-break)
-       (setq pomodoro-state 'work
-             pomodoro-minute pomodoro-work-time
-             pomodoro-set (1+ pomodoro-set)))
-      ((eq pomodoro-state 'work)
-       (if (>= pomodoro-set pomodoro-set-number)
-           (setq pomodoro-minute pomodoro-long-break
-                 pomodoro-state 'long-break)
-           (setq pomodoro-minute pomodoro-short-break
-                 pomodoro-state 'short-break))))
-    (pomodoro-status))
-  (pomodoro-update-modeline))
+  (unless pomodoro-paused
+    (setq pomodoro-minute (1- pomodoro-minute))
+    (when (<= pomodoro-minute 0)
+      (cond
+        ((eq pomodoro-state 'long-break)
+         (setq pomodoro-state 'work
+               pomodoro-set 1
+               pomodoro-minute pomodoro-work-time))
+        ((eq pomodoro-state 'short-break)
+         (setq pomodoro-state 'work
+               pomodoro-minute pomodoro-work-time
+               pomodoro-set (1+ pomodoro-set)))
+        ((eq pomodoro-state 'work)
+         (if (>= pomodoro-set pomodoro-set-number)
+             (setq pomodoro-minute pomodoro-long-break
+                   pomodoro-state 'long-break)
+             (setq pomodoro-minute pomodoro-short-break
+                   pomodoro-state 'short-break))))
+      (pomodoro-status))
+    (pomodoro-update-modeline)))
 
 (defun pomodoro-update-modeline ()
   "Update the modeline."
@@ -197,6 +229,9 @@ It takes care of updating the modeline"
            (format "B%d-%d" pomodoro-set pomodoro-minute))
           (t
            (format "LB-%d" pomodoro-minute))))
+  (when pomodoro-paused
+    (setq pomodoro-display-string
+          (format "%s (paused)" pomodoro-display-string)))
   (force-mode-line-update))
 
 (defun pomodoro-running-p ()

@@ -34,6 +34,8 @@ If you got interrupted and you want to rewind the pomodoro on the current set ju
 
 Calling `M-x pomodoro` again will reset it to the first working set
 
+Calling `M-x pomodoro-toggle-pause` will pause/unpause pomodoro.
+
 Calling `M-x pomodoro-status` will show you notification about current pomodoro state, time left and set number:
 
 ![](http://i51.tinypic.com/4ut0d0.jpg)
