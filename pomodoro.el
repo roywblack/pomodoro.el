@@ -81,6 +81,16 @@
       (when (y-or-n-p "Pomodoro isn't running. Start it?")
         (pomodoro))))
 
+(defun pomodoro-skip-forward ()
+  "Skip forward to the start of the next step"
+  (interactive)
+  (if (< pomodoro-set pomodoro-set-number)
+      (setq pomodoro-set (1+ pomodoro-set))
+      (setq pomodoro-set 1))
+  (setq pomodoro-minute pomodoro-work-time)
+  (pomodoro-update-modeline)
+  (pomodoro-status))
+
 (defun pomodoro-stop ()
   "Stop pomodoro."
   (interactive)
