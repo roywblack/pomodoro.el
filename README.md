@@ -1,6 +1,6 @@
 # pomodoro.el #
 
-The technique is described in http://www.pomodorotechnique.com
+The technique is described at http://www.pomodorotechnique.com
 
 [Original code](http://kanis.fr/hg/lisp/ivan/pomodoro.el) written by Ivan
 Kanis. This fork adds some features and uses libnotify for notifications
@@ -33,7 +33,8 @@ just do `M-x pomodoro-rewind`
 
 Calling `M-x pomodoro` again will reset it to the first working set.
 
-Calling `M-x pomodoro-toggle-pause` will pause/unpause pomodoro.
+Calling `M-x pomodoro-toggle-pause` will pause/unpause pomodoro and change
+status in modeline accordingly.
 
 Calling `M-x pomodoro-status` will show you notification about current
 pomodoro state, time left and set number.
@@ -81,3 +82,7 @@ You can customize this mode with the following variables:
 `pomodoro-set-number` - number of sets until a long break
 
 `pomodoro-icon` - icon for use in notifications
+
+## Bugs ##
+
+Report bugs on [bugtracker](https://github.com/vderyagin/pomodoro.el/issues)
