@@ -98,10 +98,7 @@
       (progn
         (cancel-timer pomodoro-timer)
         (delq 'pomodoro-display-string global-mode-string)
-        (notifications-notify
-         :title "Stopped"
-         :app-icon pomodoro-icon
-         :urgency 'critical))
+        (pomodoro-status))
       (when (y-or-n-p "Pomodoro isn't running. Start it?")
         (pomodoro))))
 
