@@ -120,10 +120,10 @@
   (interactive)
   (let ((notification-title
          (cond
-           ((not (pomodoro-running-p)) "Not running")
-           ((eq pomodoro-state 'work) "Work")
+           ((eq pomodoro-state 'work)        "Work")
            ((eq pomodoro-state 'short-break) "Short break")
-           (t "Long break")))
+           ((eq pomodoro-state 'long-break ) "Long break")
+           (t                                "Not running")))
         (notification-body
          (if (pomodoro-running-p)
              (concat (format "%d set\n" pomodoro-set)
