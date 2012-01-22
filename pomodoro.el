@@ -118,24 +118,33 @@
 (defun pomodoro-status ()
   "Display a status message via libnotify"
   (interactive)
-  (let ((notification-title
-         (cond
-           ((eq pomodoro-state 'work)        "Work")
-           ((eq pomodoro-state 'short-break) "Short break")
-           ((eq pomodoro-state 'long-break ) "Long break")
-           (t                                "Not running")))
-        (notification-body
+  (let ((notification-body
          (if (pomodoro-running-p)
              (concat (format "%d set\n" pomodoro-set)
                      (format "%d minute(s) left" pomodoro-minute))
              "")))
-    (when pomodoro-paused
-      (setq notification-title
-            (format "%s (paused)" notification-title)))
     (notifications-notify
-     :title    notification-title
+     :title    (pomodoro-current-state)
      :body     notification-body
      :app-icon pomodoro-icon)))
+
+(defun pomodoro-current-state ()
+  "Current pomodoro state as string"
+  (catch 'current-state
+    (let ((state
+           (cond
+             ((not (pomodoro-running-p))
+              (throw 'current-state "Not running"))
+             ((eq pomodoro-state 'work)
+              "Work")
+             ((eq pomodoro-state 'short-break)
+              "Short break")
+             ((eq pomodoro-state 'long-break )
+              "Long break"))))
+      (throw 'current-state
+        (if pomodoro-paused
+            (format "%s (paused)" state)
+            state)))))
 
 (defun pomodoro-timer ()
   "Function called every minute.
