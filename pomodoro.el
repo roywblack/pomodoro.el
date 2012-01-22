@@ -106,10 +106,8 @@
   "Pauses pomodoro timer"
   (interactive)
   (if (pomodoro-running-p)
-      (let (notification-title)
-        (if pomodoro-paused
-            (setq pomodoro-paused nil)
-            (setq pomodoro-paused t))
+      (progn
+        (setq pomodoro-paused (not pomodoro-paused))
         (pomodoro-update-modeline)
         (pomodoro-status))
       (when (y-or-n-p "Pomodoro isn't running. Start it?")
