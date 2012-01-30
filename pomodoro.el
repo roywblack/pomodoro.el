@@ -165,8 +165,8 @@ It takes care of updating the modeline"
                    pomodoro-state 'long-break)
              (setq pomodoro-minute pomodoro-short-break
                    pomodoro-state 'short-break))))
-      (pomodoro-update-modeline)
-      (pomodoro-status))))
+      (pomodoro-status))
+    (pomodoro-update-modeline)))
 
 (defun pomodoro-update-modeline ()
   "Update the modeline."
