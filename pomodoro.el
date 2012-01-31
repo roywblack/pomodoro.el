@@ -87,7 +87,8 @@
   (if (< pomodoro-set pomodoro-set-number)
       (setq pomodoro-set (1+ pomodoro-set))
       (setq pomodoro-set 1))
-  (setq pomodoro-minute pomodoro-work-time)
+  (setq pomodoro-minute pomodoro-work-time
+        pomodoro-state 'work)
   (pomodoro-update-modeline)
   (pomodoro-status))
 
